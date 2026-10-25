@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Code2, Globe, FileCode, Brain, Bot, PenTool, Image, Video, Cpu, Layers, ShieldCheck, Instagram, Sparkles, Send, Phone, Newspaper, Award, ArrowUpRight, Menu, X, Maximize2 } from "lucide-react";
-import portrait from "@/assets/portrait.png.asset.json";
 import { NetworkCanvas } from "@/components/NetworkCanvas";
 import { AICharacter } from "@/components/AICharacter";
 import { Reveal } from "@/components/Reveal";
@@ -125,7 +124,14 @@ function Index() {
               <div className="animate-spin-slow absolute -inset-6 rounded-full border border-dashed border-border" aria-hidden />
               <div className="absolute -inset-1 rounded-[2rem] bg-gradient-to-b from-foreground/30 to-transparent blur-md" aria-hidden />
               <figure className="relative overflow-hidden rounded-[2rem] border border-border bg-card">
-                <img src={portrait.url} alt="Mahdi Sadeghi — مهدی صادقی" className="aspect-square w-full object-cover" width={1254} height={1254} fetchPriority="high" />
+                <img
+  src="/portrait.png"
+  alt="Mahdi Sadeghi — مهدی صادقی"
+  className="aspect-square w-full object-cover"
+  width={1254}
+  height={1254}
+  fetchPriority="high"
+/>
                 <figcaption className="glass absolute inset-x-3 bottom-3 rounded-xl border border-border px-4 py-2 font-mono text-xs" dir="ltr">
                   <span className="text-muted-foreground">const</span> dev = <span>"Mahdi Sadeghi"</span>;
                 </figcaption>
