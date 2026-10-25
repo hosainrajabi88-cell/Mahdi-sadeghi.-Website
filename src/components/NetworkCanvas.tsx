@@ -25,10 +25,15 @@ export function NetworkCanvas() {
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
       ctx.font = "11px 'JetBrains Mono', monospace";
+      const isLight = document.documentElement.classList.contains("light");
+      const streamColor = isLight ? "rgba(0,0,0,0.07)" : "rgba(255,255,255,0.10)";
+      const dotColor = isLight ? "rgba(0,0,0,0.45)" : "rgba(255,255,255,0.55)";
+      const lineAlpha = isLight ? 0.08 : 0.12;
+
       for (const s of streams) {
         s.y += s.s; if (s.y > h) { s.y = -10; s.x = Math.random() * w; }
         if (Math.random() < 0.02) s.c = glyphs.charAt((Math.random() * glyphs.length) | 0);
-        ctx.fillStyle = "rgba(255,255,255,0.10)"; ctx.fillText(s.c, s.x, s.y);
+        ctx.fillStyle = streamColor; ctx.fillText(s.c, s.x, s.y);
       }
       for (const p of pts) {
         p.x += p.vx; p.y += p.vy;
@@ -41,11 +46,13 @@ export function NetworkCanvas() {
           const b2 = pts[j]!;
           const dx = a.x - b2.x, dy = a.y - b2.y, d = dx * dx + dy * dy;
           if (d < 16000) {
-            ctx.strokeStyle = `rgba(255,255,255,${0.12 * (1 - d / 16000)})`;
+            ctx.strokeStyle = isLight
+              ? `rgba(0,0,0,${lineAlpha * (1 - d / 16000)})`
+              : `rgba(255,255,255,${lineAlpha * (1 - d / 16000)})`;
             ctx.lineWidth = 0.6; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b2.x, b2.y); ctx.stroke();
           }
         }
-        ctx.fillStyle = "rgba(255,255,255,0.55)";
+        ctx.fillStyle = dotColor;
         ctx.beginPath(); ctx.arc(a.x, a.y, 1.3, 0, Math.PI * 2); ctx.fill();
       }
       if (!reduce) raf = requestAnimationFrame(draw);

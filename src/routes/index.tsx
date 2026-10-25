@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Code2, Globe, FileCode, Brain, Bot, PenTool, Image, Video, Cpu, Layers, ShieldCheck, Instagram, Sparkles, Send, Phone, Newspaper, Award, ArrowUpRight, Menu, X, Maximize2 } from "lucide-react";
+import { Code2, Globe, FileCode, Brain, Bot, PenTool, Image, Video, Cpu, Layers, ShieldCheck, Instagram, Sparkles, Send, Phone, Newspaper, Award, ArrowUpRight, Menu, X, Maximize2, Sun, Moon } from "lucide-react";
 import { NetworkCanvas } from "@/components/NetworkCanvas";
 import { AICharacter } from "@/components/AICharacter";
 import { Reveal } from "@/components/Reveal";
@@ -41,12 +41,19 @@ function SectionHead({ title, intro, index }: { title: string; intro?: string; i
 function Index() {
   const [lang, setLang] = useState<Lang>("fa");
   const [open, setOpen] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [scrolled, setScrolled] = useState(false);
   const [certPreview, setCertPreview] = useState<number | null>(null);
   const [certImgFailed, setCertImgFailed] = useState<Record<string, boolean>>({});
   const t = content[lang];
 
   useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    const initialTheme = savedTheme === "light" ? "light" : "dark";
+    setTheme(initialTheme);
+    document.documentElement.classList.toggle("light", initialTheme === "light");
+    document.documentElement.classList.toggle("dark", initialTheme === "dark");
+
     const saved = localStorage.getItem("lang") as Lang | null;
     if (saved && saved in content) setLang(saved);
     const s = () => setScrolled(window.scrollY > 20);
@@ -68,6 +75,15 @@ function Index() {
   }, [certPreview]);
 
   const navClick = (id: string) => { setOpen(false); go(id); };
+  const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    document.documentElement.classList.add("theme-transition");
+    document.documentElement.classList.toggle("light", nextTheme === "light");
+    document.documentElement.classList.toggle("dark", nextTheme === "dark");
+    localStorage.setItem("theme", nextTheme);
+    setTheme(nextTheme);
+    window.setTimeout(() => document.documentElement.classList.remove("theme-transition"), 300);
+  };
 
   return (
     <div className={`min-h-screen overflow-x-hidden bg-background text-foreground ${lang === "en" ? "font-display" : "font-persian"}`}>
@@ -84,6 +100,15 @@ function Index() {
             ))}
           </ul>
           <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              title={theme === "dark" ? "حالت روشن" : "حالت تیره"}
+              className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-2.5 text-xs font-medium text-foreground transition hover:bg-secondary sm:px-3"
+            >
+              {theme === "dark" ? <><Sun size={15} /><span className="hidden sm:inline">حالت روشن</span></> : <><Moon size={15} /><span className="hidden sm:inline">حالت تیره</span></>}
+            </button>
             <div className="flex rounded-lg border border-border bg-card p-0.5" role="group" aria-label="Language">
               {(Object.keys(langMeta) as Lang[]).map((l) => (
                 <button key={l} onClick={() => setLang(l)} aria-pressed={lang === l} className={`rounded-md px-2.5 py-1.5 text-xs transition ${lang === l ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>{langMeta[l].label}</button>
