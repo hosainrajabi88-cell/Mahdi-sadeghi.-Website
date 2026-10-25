@@ -140,15 +140,7 @@ function Index() {
     <span>"Mahdi Sadeghi"</span>;
   </figcaption>
 </figure>
-    <span className="text-muted-foreground">const</span> dev ={" "}
-    <span>"Mahdi Sadeghi"</span>;
-  </figcaption>
-</figure>
-                <figcaption className="glass absolute inset-x-3 bottom-3 rounded-xl border border-border px-4 py-2 font-mono text-xs" dir="ltr">
-                  <span className="text-muted-foreground">const</span> dev = <span>"Mahdi Sadeghi"</span>;
-                </figcaption>
-              </figure>
-              <AICharacter className="absolute -bottom-10 h-36 w-28 ltr:-right-10 rtl:-left-10 sm:h-48 sm:w-36 sm:ltr:-right-16 sm:rtl:-left-16" />
+  <AICharacter className="absolute -bottom-10 h-36 w-28 ltr:-right-10 rtl:-left-10 sm:h-48 sm:w-36 sm:ltr:-right-16 sm:rtl:-left-16" />
             </div>
           </div>
         </section>
